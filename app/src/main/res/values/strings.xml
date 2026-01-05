@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">FootTrack Mobile</string>
+    <string name="api_key">My_Very_Secret_Key</string>
+</resources>
