@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DownloadManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,8 +24,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
@@ -32,15 +37,29 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     TekmaAdapter adapter;
     ArrayList<Tekma> tekmeList = new ArrayList<>();
+    private String formatDate(String isoDate) {
+        try {
+            SimpleDateFormat input =
+                    new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
+
+            SimpleDateFormat output =
+                    new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault());
+
+            Date date = input.parse(isoDate);
+            return output.format(date);
+
+        } catch (ParseException e) {
+            return isoDate;
+        }
+    }
     private String url ="https://foottrack-dabec2gyhffmarg3.switzerlandnorth-01.azurewebsites.net/api/tekme";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         requestQueue = Volley.newRequestQueue(this);
-        recyclerView = findViewById(R.id.recyclerTekme);
+        recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
         adapter = new TekmaAdapter(tekmeList);
         recyclerView.setAdapter(adapter);
     }
@@ -51,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                     JSONObject object = response.getJSONObject(i);
                     Tekma t = new Tekma();
                     t.tekmaId = object.getInt("tekmaId");
-                    t.datum = object.getString("datum");
+                    t.datum = formatDate(object.getString("datum"));
                     t.domacaGol = object.getInt("domacaGol");
                     t.gostujocaGol = object.getInt("gostujocaGol");
                     t.domacaIme = object.getString("domacaEkipaIme");
@@ -64,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             adapter.notifyDataSetChanged();
-
     };
 
 
@@ -89,4 +107,7 @@ public class MainActivity extends AppCompatActivity {
             Log.d("REST error", error.toString());
         }
     };
+    public void openAddTekma(View view) {
+        startActivity(new Intent(this, AddTekmaActivity.class));
+    }
 }

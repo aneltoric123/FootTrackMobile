@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Spinner
+        android:id="@+id/spinnerDomaca"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:prompt="@string/home_team_prompt" />
+
+    <Spinner
+        android:id="@+id/spinnerGostujoca"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:prompt="@string/away_team_prompt" />
+
+    <EditText
+        android:id="@+id/etGoliDomaci"
+        android:hint="Home goals"
+        android:inputType="number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/etGoliGostujoca"
+        android:hint="Away goals"
+        android:inputType="number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/btnSave"
+        android:text="Save Game"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
